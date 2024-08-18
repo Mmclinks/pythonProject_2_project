@@ -1,24 +1,43 @@
 from abc import ABC, abstractmethod
 import requests
 
+
 class JobAPI(ABC):
     @abstractmethod
-    def fetch_vacancies(self, text: str, area: int, pages: int):
+    def __init__(self, base_url):
+        self.base_url = base_url
+
+    @abstractmethod
+    def get_vacancies(self, **params):
+        """
+        Получает вакансии с API сервиса.
+        :param params: параметры для запроса вакансий.
+        :return: список вакансий.
+        """
         pass
 
-class HHAPI(JobAPI):
-    def __init__(self):
-        self.url = 'https://api.hh.ru/vacancies'
-        self.headers = {'User-Agent': 'Mozilla/5.0'}
+    @abstractmethod
+    def _make_request(self, endpoint, params):
+        """
+        Делает запрос к API и возвращает результат.
+        :param endpoint: конечная точка API.
+        :param params: параметры для запроса.
+        :return: данные, полученные от API.
+        """
+        pass
 
-    def fetch_vacancies(self, text: str, area: int = 1, pages: int = 1):
-        vacancies = []
-        params = {'text': text, 'area': area, 'per_page': 100}
-        for page in range(pages):
-            params['page'] = page
-            response = requests.get(self.url, headers=self.headers, params=params)
-            if response.status_code == 200:
-                vacancies.extend(response.json()['items'])
-            else:
-                print(f"Failed to fetch data: {response.status_code}")
-        return vacancies
+
+class HhAPI(JobAPI):
+    def __init__(self):
+        super().__init__('https://api.hh.ru/')
+
+    def get_vacancies(self, **params):
+        endpoint = 'vacancies'
+        response = self._make_request(endpoint, params)
+        return response.get('items', [])
+
+    def _make_request(self, endpoint, params):
+        url = f"{self.base_url}{endpoint}"
+        response = requests.get(url, params=params)
+        response.raise_for_status()  # Поднимает исключение при наличии ошибки HTTP
+        return response.json()
