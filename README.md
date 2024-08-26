@@ -1,4 +1,4 @@
-# HeadHunter
+# VacancyFinder
 
 Программа, которая будет получать информацию о вакансиях с платформы hh.ru в России, сохранять ее в файл и
 позволять удобно работать с ней: добавлять, фильтровать, удалять.
@@ -6,32 +6,40 @@
 ## Структура проекта
 
 ├── src
-│ ├── api.py
-│ ├── interaction.py
+│ ├── api_connector.py
+│ ├── file_connector.py
+│ ├── hh_api.py
+│ ├── user_interface.py
 │ ├── utils.py
-│ ├── main.py
+│ ├── vacancy.py
 ├── tests
-│ ├── test_api.py
-│ ├── test_interaction.py
+│ ├── test_api_connector.py
+│ ├── test_file_connector.py
+│ ├── hh_api.py
+│ ├── user_interface.py
 │ ├── test_utils.py
-│ ├── test_main.py
-
+│ ├── test_vacancy.py
+├── main.py
 
 ### Модули
 
-- **api.py**: Модуль, содержащий абстрактный класс для работы с API сервиса с вакансиями.
-- **interaction.py**: Модуль содержит функцию для взаимодействия с пользователем.
-- **utils.py**: Модуль для обработки информации о зарплате.
+- **api_connector.py**: Модуль для работы с API и файлами.
+- **file_connector.py**: Модуль для работы с файлами в формате JSON и CSV.
+- **hh_api.py**: Модуль для работы с API HeadHunter.
+- **user_interface.py**: Модуль для взаимодействия с пользователем.
+- **utils.py**: Модуль для фильтрации и сортировки вакансий.
+- **vacancy.py**: Модуль для работы с вакансиями.
 - **main.py**: Точка входа.
-
+- 
 ## Установка
 
-1. Клонируйте репозиторий:
+Клонируйте репозиторий:
 
 git clone https://github.com/Mmclinks/pythonProject_2_project.git
 
    
-2. Установите зависимости:
+Установите зависимости:
+
 pip install
 или
 poetry install
@@ -46,19 +54,26 @@ pytest
 Покрытие кода:
 
 
-F---------- coverage: platform linux, python 3.12.3-final-0 -----------
-Name                        Stmts   Miss  Cover
------------------------------------------------
-src/__init__.py                 0      0   100%
-src/api.py                     24      2    92%
-src/interaction.py             66      8    88%
-src/utils.py                    5      0   100%
-tests/__init__.py               0      0   100%
-tests/test_api.py              30      0   100%
-tests/test_interaction.py      39      0   100%
-tests/test_utils.py            22      0   100%
------------------------------------------------
-TOTAL                         186     10    95%
+---------- coverage: platform linux, python 3.12.3-final-0 -----------
+Name                           Stmts   Miss  Cover
+--------------------------------------------------
+src/__init__.py                    0      0   100%
+src/api_connector.py              20      5    75%
+src/file_connector.py             56     18    68%
+src/hh_api.py                     28      0   100%
+src/user_interface.py             34      0   100%
+src/utils.py                      22      0   100%
+src/vacancy.py                    80      8    90%
+tests/__init__.py                  0      0   100%
+tests/test_api_connector.py       64      5    92%
+tests/test_file_connector.py      30      0   100%
+tests/test_hh_api.py              41      0   100%
+tests/test_user_interface.py      39      0   100%
+tests/test_utils.py               43      0   100%
+tests/test_vacancy.py             51      0   100%
+--------------------------------------------------
+TOTAL                            508     36    93%
+
 
 Лицензия:
 
